@@ -1,0 +1,607 @@
+<html><head><base href="https://notes4cyber.github.io/College-note/"><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering Notes Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/css/lightbox.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --text-color: #333;
+            --light-bg: #ecf0f1;
+            --accent-color: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            top: 100%;
+            left: 0;
+        }
+
+        .year-dropdown {
+            position: relative;
+        }
+
+        .semester-dropdown {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+
+        .year-dropdown:hover > .semester-dropdown {
+            display: block;
+        }
+
+        .semester {
+            position: relative;
+        }
+
+        .subjects-dropdown {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+
+        .semester:hover > .subjects-dropdown {
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 12px 16px;
+            display: block;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--light-bg);
+            color: var(--accent-color);
+        }
+
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .year-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .year-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .subject-card {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-section {
+            margin: 3rem 0;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .gallery-item a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--primary-color);
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+                background: transparent;
+                margin-left: 1rem;
+            }
+
+            .dropdown-content a {
+                color: white !important;
+                padding: 0.5rem 1rem;
+            }
+
+            .year-dropdown.active > .semester-dropdown,
+            .semester.active > .subjects-dropdown {
+                display: block;
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: none;
+            }
+
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .hero-section p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Engineering Notes Hub
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#about">About</a>
+                <a href="#notes">Notes</a>
+                <div class="dropdown">
+                    <a href="#">Subjects ▼</a>
+                    <div class="dropdown-content">
+                        <div class="year-dropdown">
+                            <a href="#first-year">1st Year ▶</a>
+                            <div class="semester-dropdown">
+                                <div class="semester">
+                                    <a href="#semester1">Semester 1 ▶</a>
+                                    <div class="subjects-dropdown">
+                                        <a href="notes/first-year/sem1/mathematics1.html">Mathematics I</a>
+                                        <a href="notes/first-year/sem1/physics.html">Physics</a>
+                                        <a href="notes/first-year/sem1/computer-programming.html">Computer Programming</a>
+                                        <a href="notes/first-year/sem1/engineering-drawing.html">Engineering Drawing</a>
+                                        <a href="notes/first-year/sem1/intro-to-it.html">Introduction to IT</a>
+                                    </div>
+                                </div>
+                                <div class="semester">
+                                    <a href="#semester2">Semester 2 ▶</a>
+                                    <div class="subjects-dropdown">
+                                        <a href="notes/first-year/sem2/mathematics2.html">Mathematics II</a>
+                                        <a href="notes/first-year/sem2/digital-logic.html">Digital Logic Design</a>
+                                        <a href="notes/first-year/sem2/discrete-mathematics.html">Discrete Mathematics</a>
+                                        <a href="notes/first-year/sem2/computer-organization.html">Computer Organization</a>
+                                        <a href="notes/first-year/sem2/environmental-studies.html">Environmental Studies</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="year-dropdown">
+                            <a href="#second-year">2nd Year ▶</a>
+                            <div class="semester-dropdown">
+                                <div class="semester">
+                                    <a href="#semester3">Semester 3 ▶</a>
+                                    <div class="subjects-dropdown">
+                                        <a href="notes/second-year/sem3/dsa.html">Data Structures and Algorithms</a>
+                                        <a href="notes/second-year/sem3/os.html">Operating Systems</a>
+                                        <a href="notes/second-year/sem3/computer-networks.html">Computer Networks</a>
+                                        <a href="notes/second-year/sem3/dbms.html">Database Management Systems</a>
+                                        <a href="notes/second-year/sem3/discrete-structures.html">Discrete Structures</a>
+                                    </div>
+                                </div>
+                                <div class="semester">
+                                    <a href="#semester4">Semester 4 ▶</a>
+                                    <div class="subjects-dropdown">
+                                        <a href="notes/second-year/sem4/crypto.html">Cryptography & Network Security</a>
+                                        <a href="notes/second-year/sem4/software-engineering.html">Software Engineering</a>
+                                        <a href="notes/second-year/sem4/web-tech.html">Web Technologies</a>
+                                        <a href="notes/second-year/sem4/computer-architecture.html">Computer Architecture</a>
+                                        <a href="notes/second-year/sem4/digital-communication.html">Digital Communication</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="year-dropdown">
+                            <a href="#third-year">3rd Year ▶</a>
+                            <div class="semester-dropdown">
+                                <div class="semester">
+                                    <a href="#semester5">Semester 5 ▶</a>
+                                    <div class="subjects-dropdown">
+                                        <a href="notes/third-year/sem5/computer-networks-security.html">Computer Networks & Security</a>
+                                        <a href="notes/third-year/sem5/ethical-hacking.html">Ethical Hacking</a>
+                                        <a href="notes/third-year/sem5/cyber-laws-ethics.html">Cyber Laws & Ethics</a>
+                                        <a href="notes/third-year/sem5/intro-cyber-security.html">Introduction to Cyber Security</a>
+                                        <a href="notes/third-year/sem5/wireless-networks.html">Wireless Networks</a>
+                                    </div>
+                                </div>
+                                <div class="semester">
+                                    <a href="#semester6">Semester 6 ▶</a>
+                                    <div class="subjects-dropdown">
+                                        <a href="notes/third-year/sem6/network-security.html">Network Security</a>
+                                        <a href="notes/third-year/sem6/cloud-security.html">Cloud Security</a>
+                                        <a href="notes/third-year/sem6/cyber-forensics.html">Cyber Forensics</a>
+                                        <a href="notes/third-year/sem6/advanced-cryptography.html">Advanced Cryptography</a>
+                                        <a href="notes/third-year/sem6/penetration-testing.html">Penetration Testing</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="year-dropdown">
+                            <a href="#fourth-year">4th Year ▶</a>
+                            <div class="semester-dropdown">
+                                <div class="semester">
+                                    <a href="#semester7">Semester 7 ▶</a>
+                                    <div class="subjects-dropdown">
+                                        <a href="notes/fourth-year/sem7/cyber-risk-management.html">Cyber Security Risk Management</a>
+                                        <a href="notes/fourth-year/sem7/mobile-security.html">Mobile Security</a>
+                                        <a href="notes/fourth-year/sem7/incident-response.html">Incident Response & Management</a>
+                                        <a href="notes/fourth-year/sem7/iot-security.html">Internet of Things (IoT) Security</a>
+                                        <a href="notes/fourth-year/sem7/blockchain.html">Blockchain Technology</a>
+                                    </div>
+                                </div>
+                                <div class="semester">
+                                    <a href="#semester8">Semester 8 ▶</a>
+                                    <div class="subjects-dropdown">
+                                        <a href="notes/fourth-year/sem8/ai-security.html">Artificial Intelligence in Cyber Security</a>
+                                        <a href="notes/fourth-year/sem8/malware-analysis.html">Malware Analysis</a>
+                                        <a href="notes/fourth-year/sem8/advanced-threats.html">Advanced Threats & Vulnerabilities</a>
+                                        <a href="notes/fourth-year/sem8/cloud-computing-security.html">Security in Cloud Computing</a>
+                                        <a href="notes/fourth-year/sem8/dissertation.html">Dissertation/Project Work</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#gallery">Gallery</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="hero-section">
+            <h1>Welcome to Engineering Notes Hub</h1>
+            <p>Your comprehensive resource for engineering education materials, notes, and study guides.</p>
+        </section>
+
+        <!-- Year Sections -->
+        <section id="first-year" class="year-section">
+            <h2>First Year</h2>
+            <div class="subjects-grid">
+                <div class="subject-card">
+                    <h3>Engineering Mathematics</h3>
+                    <p>Calculus, Linear Algebra, Differential Equations</p>
+                    <a href="notes/first-year/math.html">View Notes →</a>
+                </div>
+                <div class="subject-card">
+                    <h3>Engineering Physics</h3>
+                    <p>Mechanics, Electromagnetics, Modern Physics</p>
+                    <a href="notes/first-year/physics.html">View Notes →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="gallery-section">
+            <h2>Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <a href="https://images.unsplash.com/photo-1517694712202-14dd9538aa97" data-lightbox="gallery" data-title="Engineering Study">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400" alt="Engineering Study">
+                    </a>
+                </div>
+                <div class="gallery-item">
+                    <a href="https://images.unsplash.com/photo-1581092160607-ee22731c2f54" data-lightbox="gallery" data-title="Mathematics">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22731c2f54?w=400" alt="Mathematics">
+                    </a>
+                </div>
+                <div class="gallery-item">
+                    <a href="https://images.unsplash.com/photo-1532094349884-543bc11b234d" data-lightbox="gallery" data-title="Physics Lab">
+                        <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400" alt="Physics Lab">
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="https://github.com/Notes4Cyber/College-note" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://twitter.com/engineeringhub" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://linkedin.com/company/engineeringhub" target="_blank"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/js/lightbox.min.js"></script>
+    <script>
+        // Wait for document to be ready before initializing lightbox
+        $(document).ready(function() {
+            // Initialize lightbox
+            lightbox.option({
+                'resizeDuration': 200,
+                'wrapAround': true,
+                'albumLabel': "Image %1 of %2"
+            });
+        });
+
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.dropdown').forEach(dropdown => {
+            if (window.innerWidth <= 768) {
+                dropdown.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                });
+            }
+        });
+
+        document.querySelectorAll('.year-dropdown, .semester').forEach(item => {
+            if (window.innerWidth <= 768) {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    item.classList.toggle('active');
+                });
+            }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
